@@ -23,18 +23,17 @@ namespace API
             var services = scope.ServiceProvider;
 
             try {
-                var context = services.GetRequiredService<DataContext>();               
+                var context =  services.GetRequiredService<DataContext>();
                 await context.Database.MigrateAsync();
-                 await Seed.SeedData(context);
-            } 
-            catch (Exception err)
+                await Seed.SeedData(context);
+                
+            } catch ( Exception ex)
             {
                 var logger = services.GetRequiredService<ILogger<Program>>();
-                logger.LogError(err, "An error occured during migration");
+                logger.LogError(ex, "An error occurred during migration" );
             }
 
             await host.RunAsync();
-
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
